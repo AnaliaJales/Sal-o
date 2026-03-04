@@ -11,7 +11,6 @@ Ordem de instaação:
 - python -m pip install mysqlclient
 - python -m pip install django-soft-delete
 - python -m pip install pycasbin
-- python - m pip install requests
 - python manage.py makemigrations
 - python manage.py migrate 
 - python manage.py runserver
