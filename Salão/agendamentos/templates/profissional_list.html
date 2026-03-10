@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Profissionais - Salão Rainbow Hair{% endblock %}
+
+{% block extra_css %}
+<style>
+    .professional-card {
+        text-align: center;
+        padding: 25px;
+        position: relative;
+    }
+    
+    .professional-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin: 0 auto 15px;
+        background: linear-gradient(135deg, #b08671 0%, #6b4f4f 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 36px;
+    }
+    
+    .professional-specialty {
+        display: inline-block;
+        background: #e8eef9;
+        color: #b08671;
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="mb-5">
+    <div class="row align-items-center mb-4">
+        <div class="col-md-8">
+            <h2><i class="fas fa-user-tie"></i> Profissionais</h2>
+            <p class="text-muted">Gerencie a equipe de profissionais do salão</p>
+        </div>
+        <div class="col-md-4 text-md-right">
+            <a href="{% url 'agendamentos:profissional-create' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-user-plus"></i> Novo Profissional
+            </a>
+        </div>
+    </div>
+
+    {% if profissionais %}
+    <div class="row">
+        {% for profissional in profissionais %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 professional-card">
+                <div class="professional-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h5 class="card-title">{{ profissional.nome }}</h5>
+                <div class="professional-specialty">
+                    <i class="fas fa-star"></i> {{ profissional.especialidade }}
+                </div>
+                <div class="mt-4">
+                    <a href="{% url 'agendamentos:profissional-update' profissional.pk %}" class="btn btn-sm btn-primary" title="Editar">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                    <a href="{% url 'agendamentos:profissional-delete' profissional.pk %}" class="btn btn-sm btn-danger" title="Excluir">
+                        <i class="fas fa-trash"></i> Excluir
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info" role="alert">
+        <i class="fas fa-info-circle"></i> Nenhum profissional cadastrado. 
+        <a href="{% url 'agendamentos:profissional-create' %}" class="alert-link">Crie seu primeiro profissional aqui</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

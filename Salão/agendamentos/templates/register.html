@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block title %}Criar Conta - Salão Rainbow Hair{% endblock %}
+
+{% block extra_css %}
+<style>
+    .register-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: calc(100vh - 300px);
+    }
+    
+    .register-card {
+        width: 100%;
+        max-width: 500px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        padding: 40px;
+    }
+    
+    .register-card h2 {
+        color: #333;
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+    
+    .register-card .text-muted {
+        margin-bottom: 30px;
+    }
+    
+    .form-group input {
+        height: 45px;
+        font-size: 15px;
+    }
+    
+    .form-group input:focus {
+        border-color: #b08671;
+        box-shadow: 0 0 15px rgba(176, 134, 113, 0.2);
+    }
+    
+    .btn-register {
+        height: 45px;
+        font-weight: 600;
+        font-size: 16px;
+    }
+    
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+    
+    .login-link a {
+        color: #b08671;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .login-link a:hover {
+        color: #6b4f4f;
+        text-decoration: underline;
+    }
+    
+    .error-messages {
+        margin-bottom: 20px;
+    }
+    
+    .error-messages li {
+        color: #dc3545;
+        background: #fff5f7;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        list-style: none;
+    }
+    
+    .password-help {
+        background: #f0f3ff;
+        border-left: 4px solid #b08671;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 10px;
+        font-size: 13px;
+        color: #555;
+    }
+    
+    .password-help ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+    
+    .password-help li {
+        margin: 3px 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="register-container">
+    <div class="register-card">
+        <h2><i class="fas fa-user-plus" style="color: #b08671;"></i> Criar Conta</h2>
+        <p class="text-muted">Junte-se ao Salão Rainbow Hair e agende seus serviços</p>
+
+        {% if form.non_field_errors %}
+        <div class="error-messages">
+            {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}" class="form-label">Usuário</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                <div class="text-danger mt-2">
+                    {% for error in form.username.errors %}
+                    <small>{{ error }}</small>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password1.id_for_label }}" class="form-label">Senha</label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                <div class="text-danger mt-2">
+                    {% for error in form.password1.errors %}
+                    <small>{{ error }}</small>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="password-help">
+                    <strong>Requisitos da senha:</strong>
+                    <ul>
+                        <li>Mínimo 8 caracteres</li>
+                        <li>Não pode ser muito comum</li>
+                        <li>Não pode ser apenas números</li>
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}" class="form-label">Confirmar Senha</label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                <div class="text-danger mt-2">
+                    {% for error in form.password2.errors %}
+                    <small>{{ error }}</small>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 btn-register">
+                <i class="fas fa-check"></i> Criar Conta
+            </button>
+        </form>
+
+        <div class="login-link">
+            <p>Já tem uma conta? <a href="{% url 'login' %}">Faça login aqui</a></p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
