@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Salão Rainbow Hair{% endblock %}
+
+{% block extra_css %}
+<style>
+    .login-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: calc(100vh - 300px);
+    }
+    
+    .login-card {
+        width: 100%;
+        max-width: 450px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        padding: 40px;
+    }
+    
+    .login-card h2 {
+        color: #333;
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+    
+    .login-card .text-muted {
+        margin-bottom: 30px;
+    }
+    
+    .form-group input {
+        height: 45px;
+        font-size: 15px;
+    }
+    
+    .form-group input:focus {
+        border-color: #b08671;
+        box-shadow: 0 0 15px rgba(176, 134, 113, 0.2);
+    }
+    
+    .btn-login {
+        height: 45px;
+        font-weight: 600;
+        font-size: 16px;
+    }
+    
+    .signup-link {
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+    
+    .signup-link a {
+        color: #b08671;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .signup-link a:hover {
+        color: #6b4f4f;
+        text-decoration: underline;
+    }
+    
+    .error-messages {
+        margin-bottom: 20px;
+    }
+    
+    .error-messages li {
+        color: #dc3545;
+        background: #fff5f7;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        list-style: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="login-container">
+    <div class="login-card">
+        <h2><i class="fas fa-spa" style="color: #b08671;"></i> Salão Rainbow Hair</h2>
+        <p class="text-muted">Entre para agendar seus serviços</p>
+
+        {% if form.non_field_errors %}
+        <div class="error-messages">
+            {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}" class="form-label">Usuário / Email</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                <div class="text-danger mt-2">
+                    {% for error in form.username.errors %}
+                    <small>{{ error }}</small>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}" class="form-label">Senha</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                <div class="text-danger mt-2">
+                    {% for error in form.password.errors %}
+                    <small>{{ error }}</small>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 btn-login">
+                <i class="fas fa-sign-in-alt"></i> Entrar
+            </button>
+        </form>
+
+        <div class="signup-link">
+            <p>Não tem conta? <a href="{% url 'agendamentos:register' %}">Crie uma agora</a></p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
